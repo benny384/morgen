@@ -21,3 +21,26 @@ public class CaesarCipher {
     }
 }
 
+
+
+
+import java.util.Scanner;
+
+public class SwapMiddleLetters {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter a message: ");
+        String message = input.nextLine();
+        
+        char[] letters = message.toCharArray();
+        int middle = letters.length / 2;
+        for (int i = 1; i < middle; i++) {
+            char temp = letters[i];
+            letters[i] = letters[letters.length - i - 1];
+            letters[letters.length - i - 1] = temp;
+        }
+        System.out.println("Modified message: " + new String(letters));
+    }
+}
+
+
