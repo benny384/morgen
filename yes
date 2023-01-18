@@ -1,1 +1,23 @@
+import java.util.Scanner;
+
+public class CaesarCipher {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter a message to encrypt: ");
+        String message = input.nextLine();
+        System.out.println("Enter the shift distance: ");
+        int shift = input.nextInt();
+        
+        char[] letters = message.toCharArray();
+        for (int i = 0; i < letters.length; i++) {
+            if (Character.isLetter(letters[i])) {
+                letters[i] = (char)(letters[i] + shift);
+                if (Character.isUpperCase(letters[i]) && letters[i] > 'Z' || Character.isLowerCase(letters[i]) && letters[i] > 'z') {
+                    letters[i] = (char)(letters[i] - 26);
+                }
+            }
+        }
+        System.out.println("Encrypted message: " + new String(letters));
+    }
+}
 
