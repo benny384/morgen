@@ -1,46 +1,67 @@
-import java.util.Scanner;
+import java.util.Random;
 
-public class CaesarCipher {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter a message to encrypt: ");
-        String message = input.nextLine();
-        System.out.println("Enter the shift distance: ");
-        int shift = input.nextInt();
-        
-        char[] letters = message.toCharArray();
-        for (int i = 0; i < letters.length; i++) {
-            if (Character.isLetter(letters[i])) {
-                letters[i] = (char)(letters[i] + shift);
-                if (Character.isUpperCase(letters[i]) && letters[i] > 'Z' || Character.isLowerCase(letters[i]) && letters[i] > 'z') {
-                    letters[i] = (char)(letters[i] - 26);
-                }
+class BattleshipGame {
+    // Matrix, die das Spielfeld darstellt
+    private char[][] gameBoard = new char[5][5];
+
+    // Konstruktor, der das Spielfeld initialisiert
+    public BattleshipGame() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                gameBoard[i][j] = '.';
             }
         }
-        System.out.println("Encrypted message: " + new String(letters));
+        placeShip();
     }
-}
 
+    // Funktion zum Platzieren des Schiffes auf dem Spielfeld
+    private void placeShip() {
+        Random rand = new Random();
+        boolean isHorizontal = rand.nextBoolean();
+        int row, col;
 
-
-
-import java.util.Scanner;
-
-public class SwapMiddleLetters {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter a message: ");
-        String message = input.nextLine();
-        
-        char[] letters = message.toCharArray();
-        int middle = letters.length / 2;
-        for (int i = 1; i < middle; i++) {
-            char temp = letters[i];
-            letters[i] = letters[letters.length - i - 1];
-            letters[letters.length - i - 1] = temp;
+        if (isHorizontal) {
+            row = rand.nextInt(5);
+            col = rand.nextInt(5-4);
+            for (int i = col; i < col+5; i++) {
+                gameBoard[row][i] = 'S';
+            }
+        } else {
+            row = rand.nextInt(5-4);
+            col = rand.nextInt(5);
+            for (int i = row; i < row+5; i++) {
+                gameBoard[i][col] = 'S';
+            }
         }
-        System.out.println("Modified message: " + new String(letters));
+    }
+
+    // Funktion zum Schießen auf das Spielfeld
+    public boolean shoot(int row, int col) {
+        if (gameBoard[row][col] == 'S') {
+            gameBoard[row][col] = 'H';
+            return true;
+        } else {
+            gameBoard[row][col] = 'M';
+            return false;
+        }
+    }
+
+    // Funktion zum Anzeigen des aktuellen Spielfelds
+    public void printBoard() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                System.out.print(gameBoard[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        BattleshipGame game = new BattleshipGame();
+        game.printBoard();
+        // Beispielaufrufe zum Schießen
+        System.out.println(game.shoot(0, 0)); // false
+        System.out.println(game.shoot(2, 2)); // true
+        game.printBoard();
     }
 }
-
-
