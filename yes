@@ -1,67 +1,58 @@
-import java.util.Random;
+import java.util.Scanner;
 
-class BattleshipGame {
-    // Matrix, die das Spielfeld darstellt
-    private char[][] gameBoard = new char[5][5];
-
-    // Konstruktor, der das Spielfeld initialisiert
-    public BattleshipGame() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                gameBoard[i][j] = '.';
-            }
-        }
-        placeShip();
-    }
-
-    // Funktion zum Platzieren des Schiffes auf dem Spielfeld
-    private void placeShip() {
-        Random rand = new Random();
-        boolean isHorizontal = rand.nextBoolean();
-        int row, col;
-
-        if (isHorizontal) {
-            row = rand.nextInt(5);
-            col = rand.nextInt(5-4);
-            for (int i = col; i < col+5; i++) {
-                gameBoard[row][i] = 'S';
-            }
-        } else {
-            row = rand.nextInt(5-4);
-            col = rand.nextInt(5);
-            for (int i = row; i < row+5; i++) {
-                gameBoard[i][col] = 'S';
+public class Battleship {
+    public static void main(String[] args) {
+        // Initialisiere das Spielfeld
+        int[][] gameBoard = new int[10][10];
+        // Platziere die Schiffe auf dem Spielfeld
+        placeShips(gameBoard);
+        // Initialisiere den Scanner zum Einlesen von Eingaben
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            // Gib das Spielfeld aus
+            printGameBoard(gameBoard);
+            // Frage nach dem nächsten Schuss
+            System.out.println("Wohin möchtest du schießen? (x y)");
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+            // Prüfe, ob der Schuss ein Schiff getroffen hat
+            if (checkHit(gameBoard, x, y)) {
+                System.out.println("Treffer!");
+                // Prüfe, ob das Spiel vorbei ist
+                if (checkWin(gameBoard)) {
+                    System.out.println("Du hast gewonnen!");
+                    break;
+                }
+            } else {
+                System.out.println("Verfehlt.");
             }
         }
     }
 
-    // Funktion zum Schießen auf das Spielfeld
-    public boolean shoot(int row, int col) {
-        if (gameBoard[row][col] == 'S') {
-            gameBoard[row][col] = 'H';
-            return true;
-        } else {
-            gameBoard[row][col] = 'M';
-            return false;
-        }
+    // Platziere die Schiffe auf dem Spielfeld
+    public static void placeShips(int[][] gameBoard) {
+        // Hier könnte man Code hinzufügen, der Schiffe auf dem Spielfeld platziert
     }
 
-    // Funktion zum Anzeigen des aktuellen Spielfelds
-    public void printBoard() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                System.out.print(gameBoard[i][j] + " ");
+    // Gib das Spielfeld auf der Konsole aus
+    public static void printGameBoard(int[][] gameBoard) {
+        for (int y = 0; y < gameBoard.length; y++) {
+            for (int x = 0; x < gameBoard[y].length; x++) {
+                System.out.print(gameBoard[x][y] + " ");
             }
             System.out.println();
         }
     }
 
-    public static void main(String[] args) {
-        BattleshipGame game = new BattleshipGame();
-        game.printBoard();
-        // Beispielaufrufe zum Schießen
-        System.out.println(game.shoot(0, 0)); // false
-        System.out.println(game.shoot(2, 2)); // true
-        game.printBoard();
+    // Prüfe, ob der Schuss ein Schiff getroffen hat
+    public static boolean checkHit(int[][] gameBoard, int x, int y) {
+        // Hier könnte man Code hinzufügen, der prüft, ob der Schuss ein Schiff getroffen hat
+        return false;
+    }
+
+    // Prüfe, ob das Spiel vorbei ist
+    public static boolean checkWin(int[][] gameBoard) {
+        // Hier könnte man Code hinzufügen, der prüft, ob das Spiel vorbei ist
+        return false;
     }
 }
