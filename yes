@@ -1,58 +1,23 @@
-import java.util.Scanner;
+public static void rotateMatrix(int[][] matrix) {
+    int n = matrix.length;
+    for (int layer = 0; layer < n / 2; layer++) {
+        int first = layer;
+        int last = n - 1 - layer;
+        for (int i = first; i < last; i++) {
+            int offset = i - first;
+            int top = matrix[first][i]; // speichere den oberen Wert
 
-public class Battleship {
-    public static void main(String[] args) {
-        // Initialisiere das Spielfeld
-        int[][] gameBoard = new int[10][10];
-        // Platziere die Schiffe auf dem Spielfeld
-        placeShips(gameBoard);
-        // Initialisiere den Scanner zum Einlesen von Eingaben
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            // Gib das Spielfeld aus
-            printGameBoard(gameBoard);
-            // Frage nach dem nächsten Schuss
-            System.out.println("Wohin möchtest du schießen? (x y)");
-            int x = scanner.nextInt();
-            int y = scanner.nextInt();
-            // Prüfe, ob der Schuss ein Schiff getroffen hat
-            if (checkHit(gameBoard, x, y)) {
-                System.out.println("Treffer!");
-                // Prüfe, ob das Spiel vorbei ist
-                if (checkWin(gameBoard)) {
-                    System.out.println("Du hast gewonnen!");
-                    break;
-                }
-            } else {
-                System.out.println("Verfehlt.");
-            }
+            // links nach oben
+            matrix[first][i] = matrix[last - offset][first];
+
+            // unten nach links
+            matrix[last - offset][first] = matrix[last][last - offset];
+
+            // rechts nach unten
+            matrix[last][last - offset] = matrix[i][last];
+
+            // oben nach rechts
+            matrix[i][last] = top;
         }
-    }
-
-    // Platziere die Schiffe auf dem Spielfeld
-    public static void placeShips(int[][] gameBoard) {
-        // Hier könnte man Code hinzufügen, der Schiffe auf dem Spielfeld platziert
-    }
-
-    // Gib das Spielfeld auf der Konsole aus
-    public static void printGameBoard(int[][] gameBoard) {
-        for (int y = 0; y < gameBoard.length; y++) {
-            for (int x = 0; x < gameBoard[y].length; x++) {
-                System.out.print(gameBoard[x][y] + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    // Prüfe, ob der Schuss ein Schiff getroffen hat
-    public static boolean checkHit(int[][] gameBoard, int x, int y) {
-        // Hier könnte man Code hinzufügen, der prüft, ob der Schuss ein Schiff getroffen hat
-        return false;
-    }
-
-    // Prüfe, ob das Spiel vorbei ist
-    public static boolean checkWin(int[][] gameBoard) {
-        // Hier könnte man Code hinzufügen, der prüft, ob das Spiel vorbei ist
-        return false;
     }
 }
