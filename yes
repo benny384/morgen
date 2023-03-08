@@ -1,23 +1,26 @@
-public static void rotateMatrix(int[][] matrix) {
-    int n = matrix.length;
-    for (int layer = 0; layer < n / 2; layer++) {
-        int first = layer;
-        int last = n - 1 - layer;
-        for (int i = first; i < last; i++) {
-            int offset = i - first;
-            int top = matrix[first][i]; // speichere den oberen Wert
+import java.util.Scanner;
 
-            // links nach oben
-            matrix[first][i] = matrix[last - offset][first];
+public class TowersOfHanoi {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int numDiscs;
 
-            // unten nach links
-            matrix[last - offset][first] = matrix[last][last - offset];
+        // Eingabeaufforderung für die Anzahl der Scheiben
+        System.out.print("Geben Sie die Anzahl der Scheiben ein: ");
+        numDiscs = scanner.nextInt();
 
-            // rechts nach unten
-            matrix[last][last - offset] = matrix[i][last];
+        // Aufruf der rekursiven Funktion, um die Scheiben umzustapeln
+        moveDiscs(numDiscs, 'A', 'C', 'B');
+    }
 
-            // oben nach rechts
-            matrix[i][last] = top;
+    // Funktion zum Umstapeln der Scheiben
+    public static void moveDiscs(int n, char from, char to, char aux) {
+        if (n == 1) {
+            System.out.println("Bewege Scheibe 1 von " + from + " nach " + to);
+        } else {
+            moveDiscs(n-1, from, aux, to);
+            System.out.println("Bewege Scheibe " + n + " von " + from + " nach " + to);
+            moveDiscs(n-1, aux, to, from);
         }
     }
 }
