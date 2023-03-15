@@ -20,3 +20,4 @@ public class GetPassword {
         System.out.println("Das Passwort ist: " + password.toString());
     }
 }
+
