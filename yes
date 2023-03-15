@@ -1,26 +1,23 @@
 import java.util.Scanner;
 
-public class TowersOfHanoi {
+public class GetPassword {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int numDiscs;
-
-        // Eingabeaufforderung für die Anzahl der Scheiben
-        System.out.print("Geben Sie die Anzahl der Scheiben ein: ");
-        numDiscs = scanner.nextInt();
-
-        // Aufruf der rekursiven Funktion, um die Scheiben umzustapeln
-        moveDiscs(numDiscs, 'A', 'C', 'B');
-    }
-
-    // Funktion zum Umstapeln der Scheiben
-    public static void moveDiscs(int n, char from, char to, char aux) {
-        if (n == 1) {
-            System.out.println("Bewege Scheibe 1 von " + from + " nach " + to);
-        } else {
-            moveDiscs(n-1, from, aux, to);
-            System.out.println("Bewege Scheibe " + n + " von " + from + " nach " + to);
-            moveDiscs(n-1, aux, to, from);
+        System.out.print("Geben Sie den Satz ein: ");
+        String input = scanner.nextLine();
+        String[] words = input.split("\\s+");
+        StringBuilder password = new StringBuilder();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                char lastChar = word.charAt(word.length() - 1);
+                if (Character.isLetter(lastChar)) {
+                    char c = (Character.isUpperCase(lastChar)) ? Character.toLowerCase(lastChar) : Character.toUpperCase(lastChar);
+                    password.append(c);
+                } else {
+                    password.append(lastChar);
+                }
+            }
         }
+        System.out.println("Das Passwort ist: " + password.toString());
     }
 }
