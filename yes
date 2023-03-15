@@ -9,10 +9,9 @@ public class GetPassword {
         StringBuilder password = new StringBuilder();
         for (String word : words) {
             if (!word.isEmpty()) {
-                char lastChar = word.charAt(word.length() - 1);
+                char lastChar = Character.toLowerCase(word.charAt(word.length() - 1));
                 if (Character.isLetter(lastChar)) {
-                    char c = (Character.isUpperCase(lastChar)) ? Character.toLowerCase(lastChar) : Character.toUpperCase(lastChar);
-                    password.append(c);
+                    password.append(Character.isUpperCase(lastChar) ? Character.toLowerCase(lastChar) : Character.toUpperCase(lastChar));
                 } else {
                     password.append(lastChar);
                 }
