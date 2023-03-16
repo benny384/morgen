@@ -1,31 +1,31 @@
 import java.util.Scanner;
 
-public class GetPassword {
+public class PasswortGenerator {
+    
+    public static String generatePassword(String sentence) {
+        StringBuilder password = new StringBuilder();
+        boolean useUpperCase = true;
+        
+        // Split the sentence into words
+        String[] words = sentence.split("\\s+");
+        
+        // Iterate over the words and add the last character to the password
+        for (String word : words) {
+            char lastChar = word.charAt(word.length() - 1);
+            if (Character.isLetter(lastChar)) {
+                password.append(useUpperCase ? Character.toUpperCase(lastChar) : Character.toLowerCase(lastChar));
+                useUpperCase = !useUpperCase;
+            }
+        }
+        
+        return password.toString();
+    }
+    
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Geben Sie den Satz ein: ");
-        String input = scanner.nextLine();
-        String[] words = input.split("\\s+");
-        StringBuilder password = new StringBuilder();
-        for (String word : words) {
-            if (!word.isEmpty()) {
-                char lastChar = Character.toLowerCase(word.charAt(word.length() - 1));
-                if (Character.isLetter(lastChar)) {
-                    password.append(Character.isUpperCase(lastChar) ? Character.toLowerCase(lastChar) : Character.toUpperCase(lastChar));
-                } else {
-                    password.append(lastChar);
-                }
-            }
-        }
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < password.length(); i++) {
-            char c = password.charAt(i);
-            if (i % 2 == 0) {
-                result.append(Character.toUpperCase(c));
-            } else {
-                result.append(c);
-            }
-        }
-        System.out.println("Das Passwort ist: " + result.toString());
+        System.out.println("Bitte geben Sie einen Satz ein:");
+        String sentence = scanner.nextLine();
+        String password = generatePassword(sentence);
+        System.out.println("Das Passwort lautet: " + password);
     }
 }
