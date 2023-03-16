@@ -24,3 +24,11 @@ public static String generatePassword(String sentence) {
 
     return password.toString();
 }
+
+public static void main(String[] args) {
+    String sentence1 = "Wenn es regnet, dann wird es nass.";
+    String sentence2 = "Das ist ein Test!";
+
+    System.out.println(generatePassword(sentence1));
+    System.out.println(generatePassword(sentence2));
+}
