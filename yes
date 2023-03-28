@@ -1,34 +1,31 @@
-public static String generatePassword(String sentence) {
-    StringBuilder password = new StringBuilder();
-    boolean useUpperCase = true;
-
-    // Split the sentence into words
-    String[] words = sentence.split("\\s+");
-
-    // Iterate over the words and add the last character to the password
-    for (int i = 0; i < words.length; i++) {
-        String word = words[i];
-        char lastChar = word.charAt(word.length() - 1);
-        if (Character.isLetter(lastChar)) {
-            password.append(useUpperCase ? Character.toUpperCase(lastChar) : Character.toLowerCase(lastChar));
-            useUpperCase = !useUpperCase;
-        }
-        if (i < words.length - 1) {
-            char nextChar = words[i + 1].charAt(0);
-            if (nextChar == ',' || nextChar == '.') {
-                password.append(nextChar);
-                i++;
-            }
-        }
+public class Dreieck {
+    private double a, b, c; // Längen der drei Seiten
+    
+    // Konstruktor
+    public Dreieck(double a, double b, double c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
     }
-
-    return password.toString();
-}
-
-public static void main(String[] args) {
-    String sentence1 = "Wenn es regnet, dann wird es nass.";
-    String sentence2 = "Das ist ein Test!";
-
-    System.out.println(generatePassword(sentence1));
-    System.out.println(generatePassword(sentence2));
+    
+    // Berechne den Umfang des Dreiecks
+    public double umfang() {
+        return a + b + c;
+    }
+    
+    // Berechne den Flächeninhalt des Dreiecks
+    public double flaecheninhalt() {
+        double s = umfang() / 2;
+        return Math.sqrt(s * (s - a) * (s - b) * (s - c));
+    }
+    
+    // Berechne die Fläche des Dreiecks
+    public double flaeche() {
+        return 0.5 * a * b * Math.sin(Math.toRadians(winkelC()));
+    }
+    
+    // Berechne den Winkel an der Seite c des Dreiecks
+    public double winkelC() {
+        return Math.toDegrees(Math.acos((a*a + b*b - c*c) / (2*a*b)));
+    }
 }
