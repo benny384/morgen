@@ -1,73 +1,18 @@
-package klassen;
-
-public class Kurs {
-
-	private int anzahlSchueler;
-	private int maxAnzahl;
-	private String bezeichnung;
-	private SchülerNachDenFerien[] liste;
-	private int counter;
-
-	public Kurs(String bezeichnung, int maxAnzahl) {
-		this.bezeichnung = bezeichnung;
-		this.maxAnzahl = maxAnzahl;
-		liste = new SchülerNachDenFerien[maxAnzahl];
-	}
-
-	public void hinzufuegen(SchülerNachDenFerien s) {
-		if (counter < maxAnzahl) {
-			liste[counter] = s;
-			counter++;
-		} else {
-			System.out.println("Maximale Anzahl im Kurs erreicht!");
-		}
-
-	}
-
-	public int getAnzahlSchueler() {
-		return anzahlSchueler;
-	}
-
-	public void setAnzahlSchueler(int anzahlSchueler) {
-		this.anzahlSchueler = anzahlSchueler;
-	}
-
-	public int getMaxAnzahl() {
-		return maxAnzahl;
-	}
-
-	public void setMaxAnzahl(int maxAnzahl) {
-		this.maxAnzahl = maxAnzahl;
-	}
-
-	public String getBezeichnung() {
-		return bezeichnung;
-	}
-
-	public void setBezeichnung(String bezeichnung) {
-		this.bezeichnung = bezeichnung;
-	}
-
-	public SchülerNachDenFerien[] getListe() {
-		return liste;
-	}
-
-	public void setListe(SchülerNachDenFerien[] liste) {
-		this.liste = liste;
-	}
-
-	public int getCounter() {
-		return counter;
-	}
-
-	public void setCounter(int counter) {
-		this.counter = counter;
-	}
-
-	public void listeAusgeben() {
-		for (int i = 0; i < counter; i++) {
-			System.out.println(liste[i].toString());
-		}
-		
-	}
+public void entfernen(SchülerNachDenFerien s) {
+    boolean entfernt = false;
+    for (int i = 0; i < counter; i++) {
+        if (liste[i].equals(s)) {
+            for (int j = i; j < counter - 1; j++) {
+                liste[j] = liste[j+1];
+            }
+            liste[counter-1] = null;
+            counter--;
+            entfernt = true;
+            break;
+        }
+    }
+    if (!entfernt) {
+        System.out.println("Schüler nicht gefunden.");
+    }
 }
+
