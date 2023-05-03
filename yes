@@ -1,31 +1,73 @@
-public class Dreieck {
-    private double a, b, c; // Längen der drei Seiten
-    
-    // Konstruktor
-    public Dreieck(double a, double b, double c) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-    }
-    
-    // Berechne den Umfang des Dreiecks
-    public double umfang() {
-        return a + b + c;
-    }
-    
-    // Berechne den Flächeninhalt des Dreiecks
-    public double flaecheninhalt() {
-        double s = umfang() / 2;
-        return Math.sqrt(s * (s - a) * (s - b) * (s - c));
-    }
-    
-    // Berechne die Fläche des Dreiecks
-    public double flaeche() {
-        return 0.5 * a * b * Math.sin(Math.toRadians(winkelC()));
-    }
-    
-    // Berechne den Winkel an der Seite c des Dreiecks
-    public double winkelC() {
-        return Math.toDegrees(Math.acos((a*a + b*b - c*c) / (2*a*b)));
-    }
+package klassen;
+
+public class Kurs {
+
+	private int anzahlSchueler;
+	private int maxAnzahl;
+	private String bezeichnung;
+	private SchülerNachDenFerien[] liste;
+	private int counter;
+
+	public Kurs(String bezeichnung, int maxAnzahl) {
+		this.bezeichnung = bezeichnung;
+		this.maxAnzahl = maxAnzahl;
+		liste = new SchülerNachDenFerien[maxAnzahl];
+	}
+
+	public void hinzufuegen(SchülerNachDenFerien s) {
+		if (counter < maxAnzahl) {
+			liste[counter] = s;
+			counter++;
+		} else {
+			System.out.println("Maximale Anzahl im Kurs erreicht!");
+		}
+
+	}
+
+	public int getAnzahlSchueler() {
+		return anzahlSchueler;
+	}
+
+	public void setAnzahlSchueler(int anzahlSchueler) {
+		this.anzahlSchueler = anzahlSchueler;
+	}
+
+	public int getMaxAnzahl() {
+		return maxAnzahl;
+	}
+
+	public void setMaxAnzahl(int maxAnzahl) {
+		this.maxAnzahl = maxAnzahl;
+	}
+
+	public String getBezeichnung() {
+		return bezeichnung;
+	}
+
+	public void setBezeichnung(String bezeichnung) {
+		this.bezeichnung = bezeichnung;
+	}
+
+	public SchülerNachDenFerien[] getListe() {
+		return liste;
+	}
+
+	public void setListe(SchülerNachDenFerien[] liste) {
+		this.liste = liste;
+	}
+
+	public int getCounter() {
+		return counter;
+	}
+
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+
+	public void listeAusgeben() {
+		for (int i = 0; i < counter; i++) {
+			System.out.println(liste[i].toString());
+		}
+		
+	}
 }
