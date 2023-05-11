@@ -1,50 +1,33 @@
-import java.util.ArrayList;
-
-public class Wettbuero {
+public class Wette {
     
-    private Rennen rennen;
-    private ArrayList<Wette> wetten;
-    private double faktor;
+    private Rennschnecke schnecke;
+    private int einsatz;
+    private String spieler;
+    private boolean gewonnen;
     
-    public Wettbuero(Rennen rennen, double faktor) {
-        this.rennen = rennen;
-        this.wetten = new ArrayList<Wette>();
-        this.faktor = faktor;
+    public Wette(Rennschnecke schnecke, int einsatz, String spieler) {
+        this.schnecke = schnecke;
+        this.einsatz = einsatz;
+        this.spieler = spieler;
     }
     
-    public void wetteAnnehmen(String schneckenName, int wettEinsatz, String spieler) {
-        Rennschnecke schnecke = null;
-        for (Rennschnecke s : rennen.getTeilnehmendeSchnecken()) {
-            if (s.getName().equals(schneckenName)) {
-                schnecke = s;
-                break;
-            }
-        }
-        Wette wette = new Wette(schnecke, wettEinsatz, spieler);
-        wetten.add(wette);
-    }
-    
-    public void rennenDurchfuehren() {
-        while (rennen.ermittleGewinner() == null) {
-            rennen.lasseSchneckenKriechen();
-        }
-        for (Wette wette : wetten) {
-            if (wette.getSchnecke() == rennen.ermittleGewinner()) {
-                wette.auswerten(faktor);
-            }
-        }
+    public void auswerten(double faktor) {
+        gewonnen = true;
+        einsatz *= faktor;
     }
     
     public String toString() {
-        String output = "Wettbuero: " + "\n";
-        output += "Rennen: " + rennen.getName() + "\n";
-        output += "Teilnehmende Schnecken: " + rennen.getTeilnehmendeSchnecken().toString() + "\n";
-        output += "Wettfaktor: " + faktor + "\n";
-        output += "Wetten: " + "\n";
-        for (Wette wette : wetten) {
-            output += wette.toString() + "\n";
+        String output = spieler + " wettet " + einsatz + " auf Schnecke " + schnecke.getName();
+        if (gewonnen) {
+            output += " und gewinnt";
+        } else {
+            output += " und verliert";
         }
         return output;
+    }
+    
+    public Rennschnecke getSchnecke() {
+        return schnecke;
     }
     
 }
