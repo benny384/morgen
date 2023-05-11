@@ -1,68 +1,50 @@
 import java.util.ArrayList;
 
-public class Rennen {
-    private String name;
-    private int anzahlTeilnehmer;
-    private ArrayList<Rennschnecke> teilnehmendeSchnecken;
-    private double rennstreckeLaenge;
+public class Wettbuero {
     
-    public Rennen(String name, int anzahlTeilnehmer, double rennstreckeLaenge) {
-        this.name = name;
-        this.anzahlTeilnehmer = anzahlTeilnehmer;
-        this.teilnehmendeSchnecken = new ArrayList<Rennschnecke>();
-        this.rennstreckeLaenge = rennstreckeLaenge;
+    private Rennen rennen;
+    private ArrayList<Wette> wetten;
+    private double faktor;
+    
+    public Wettbuero(Rennen rennen, double faktor) {
+        this.rennen = rennen;
+        this.wetten = new ArrayList<Wette>();
+        this.faktor = faktor;
     }
     
-    public void addRennschnecke(Rennschnecke neueSchnecke) {
-        if (teilnehmendeSchnecken.size() < anzahlTeilnehmer) {
-            teilnehmendeSchnecken.add(neueSchnecke);
+    public void wetteAnnehmen(String schneckenName, int wettEinsatz, String spieler) {
+        Rennschnecke schnecke = null;
+        for (Rennschnecke s : rennen.getTeilnehmendeSchnecken()) {
+            if (s.getName().equals(schneckenName)) {
+                schnecke = s;
+                break;
+            }
         }
+        Wette wette = new Wette(schnecke, wettEinsatz, spieler);
+        wetten.add(wette);
     }
     
-    public void removeRennschnecke(String name) {
-        for (int i = 0; i < teilnehmendeSchnecken.size(); i++) {
-            if (teilnehmendeSchnecken.get(i).getName().equals(name)) {
-                teilnehmendeSchnecken.remove(i);
-                return;
+    public void rennenDurchfuehren() {
+        while (rennen.ermittleGewinner() == null) {
+            rennen.lasseSchneckenKriechen();
+        }
+        for (Wette wette : wetten) {
+            if (wette.getSchnecke() == rennen.ermittleGewinner()) {
+                wette.auswerten(faktor);
             }
         }
     }
     
     public String toString() {
-        String result = name + "\n" + "Anzahl Teilnehmer: " + anzahlTeilnehmer + "\n" + "Teilnehmende Schnecken:\n";
-        for (Rennschnecke schnecke : teilnehmendeSchnecken) {
-            result += schnecke.toString() + "\n";
+        String output = "Wettbuero: " + "\n";
+        output += "Rennen: " + rennen.getName() + "\n";
+        output += "Teilnehmende Schnecken: " + rennen.getTeilnehmendeSchnecken().toString() + "\n";
+        output += "Wettfaktor: " + faktor + "\n";
+        output += "Wetten: " + "\n";
+        for (Wette wette : wetten) {
+            output += wette.toString() + "\n";
         }
-        result += "Rennstrecke Länge: " + rennstreckeLaenge + "\n";
-        return result;
+        return output;
     }
     
-    public Rennschnecke ermittleGewinner() {
-        Rennschnecke gewinner = null;
-        for (Rennschnecke schnecke : teilnehmendeSchnecken) {
-            if (schnecke.getStreckeZurueckgelegt() >= rennstreckeLaenge) {
-                if (gewinner == null) {
-                    gewinner = schnecke;
-                } else if (schnecke.getStreckeZurueckgelegt() > gewinner.getStreckeZurueckgelegt()) {
-                    gewinner = schnecke;
-                }
-            }
-        }
-        return gewinner;
-    }
-    
-    public void lasseSchneckenKriechen() {
-        for (Rennschnecke schnecke : teilnehmendeSchnecken) {
-            schnecke.krieche();
-        }
-    }
-    
-    public void durchfuehren() {
-        Rennschnecke gewinner = null;
-        while (gewinner == null) {
-            lasseSchneckenKriechen();
-            gewinner = ermittleGewinner();
-        }
-        System.out.println("Der Gewinner ist: " + gewinner.getName());
-    }
 }
