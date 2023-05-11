@@ -1,36 +1,68 @@
-public class Student {
-    private String vorname;
-    private String nachname;
-    private String matrikelnummer;
-    private String studiengang;
-    private int alter;
+import java.util.ArrayList;
+
+public class Rennen {
+    private String name;
+    private int anzahlTeilnehmer;
+    private ArrayList<Rennschnecke> teilnehmendeSchnecken;
+    private double rennstreckeLaenge;
     
-    public Student(String vorname, String nachname, String matrikelnummer, String studiengang, int alter) {
-        this.vorname = vorname;
-        this.nachname = nachname;
-        this.matrikelnummer = matrikelnummer;
-        this.studiengang = studiengang;
-        this.alter = alter;
+    public Rennen(String name, int anzahlTeilnehmer, double rennstreckeLaenge) {
+        this.name = name;
+        this.anzahlTeilnehmer = anzahlTeilnehmer;
+        this.teilnehmendeSchnecken = new ArrayList<Rennschnecke>();
+        this.rennstreckeLaenge = rennstreckeLaenge;
     }
     
-    public String getVorname() {
-        return vorname;
+    public void addRennschnecke(Rennschnecke neueSchnecke) {
+        if (teilnehmendeSchnecken.size() < anzahlTeilnehmer) {
+            teilnehmendeSchnecken.add(neueSchnecke);
+        }
     }
     
-    public String getNachname() {
-        return nachname;
+    public void removeRennschnecke(String name) {
+        for (int i = 0; i < teilnehmendeSchnecken.size(); i++) {
+            if (teilnehmendeSchnecken.get(i).getName().equals(name)) {
+                teilnehmendeSchnecken.remove(i);
+                return;
+            }
+        }
     }
     
-    public String getMatrikelnummer() {
-        return matrikelnummer;
+    public String toString() {
+        String result = name + "\n" + "Anzahl Teilnehmer: " + anzahlTeilnehmer + "\n" + "Teilnehmende Schnecken:\n";
+        for (Rennschnecke schnecke : teilnehmendeSchnecken) {
+            result += schnecke.toString() + "\n";
+        }
+        result += "Rennstrecke Länge: " + rennstreckeLaenge + "\n";
+        return result;
     }
     
-    public String getStudiengang() {
-        return studiengang;
+    public Rennschnecke ermittleGewinner() {
+        Rennschnecke gewinner = null;
+        for (Rennschnecke schnecke : teilnehmendeSchnecken) {
+            if (schnecke.getStreckeZurueckgelegt() >= rennstreckeLaenge) {
+                if (gewinner == null) {
+                    gewinner = schnecke;
+                } else if (schnecke.getStreckeZurueckgelegt() > gewinner.getStreckeZurueckgelegt()) {
+                    gewinner = schnecke;
+                }
+            }
+        }
+        return gewinner;
     }
     
-    public int getAlter() {
-        return alter;
+    public void lasseSchneckenKriechen() {
+        for (Rennschnecke schnecke : teilnehmendeSchnecken) {
+            schnecke.krieche();
+        }
+    }
+    
+    public void durchfuehren() {
+        Rennschnecke gewinner = null;
+        while (gewinner == null) {
+            lasseSchneckenKriechen();
+            gewinner = ermittleGewinner();
+        }
+        System.out.println("Der Gewinner ist: " + gewinner.getName());
     }
 }
-
