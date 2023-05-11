@@ -1,13 +1,55 @@
 public String toString() {
-        String output = "Wettbuero: " + "\n";
-        output += "Rennen: " + rennen.getName() + "\n";
-        output += "Teilnehmende Schnecken: " + rennen.getTeilnehmendeSchnecken().toString() + "\n";
-        output += "Wettfaktor: " + faktor + "\n";
-        output += "Wetten: " + "\n";
-        for (Wette wette : wetten) {
-            output += wette.toString() + "\n";
-        }
-        return output;
+  import java.util.ArrayList;
+
+public class Test {
+
+    public static void main(String[] args) {
+        // Test Rennschnecke
+        Rennschnecke s1 = new Rennschnecke("Schnellie", 3);
+        Rennschnecke s2 = new Rennschnecke("Schnecki", 2);
+        System.out.println(s1.toString());
+        System.out.println(s2.toString());
+        s1.krieche();
+        s2.krieche();
+        System.out.println(s1.toString());
+        System.out.println(s2.toString());
+        s1.krieche();
+        s2.krieche();
+        System.out.println(s1.toString());
+        System.out.println(s2.toString());
+        s1.krieche();
+        s2.krieche();
+        System.out.println(s1.toString());
+        System.out.println(s2.toString());
+        System.out.println(s1.compareTo(s2));
+
+        // Test Rennen
+        Rennschnecke[] schnecken = new Rennschnecke[]{s1, s2};
+        Rennen rennen = new Rennen("Schneckenrennen", schnecken, 10);
+        System.out.println(rennen.toString());
+        rennen.addRennschnecke(new Rennschnecke("Schnarchi", 1));
+        System.out.println(rennen.toString());
+        rennen.removeRennschnecke("Schnarchi");
+        System.out.println(rennen.toString());
+        rennen.lasseSchneckenKriechen();
+        System.out.println(rennen.toString());
+        Rennschnecke gewinner = rennen.ermittleGewinner();
+        System.out.println(gewinner.toString());
+
+        // Test Wette
+        Wette wette1 = new Wette(s1, 5, "Spieler1");
+        Wette wette2 = new Wette(s2, 10, "Spieler2");
+        System.out.println(wette1.toString());
+        System.out.println(wette2.toString());
+
+        // Test Wettbuero
+        Wettbuero wettbuero = new Wettbuero(rennen, 2.0);
+        System.out.println(wettbuero.toString());
+        wettbuero.wetteAnnehmen("Schnellie", 10, "Spieler3");
+        wettbuero.wetteAnnehmen("Schnecki", 5, "Spieler4");
+        System.out.println(wettbuero.toString());
+        wettbuero.rennenDurchfuehren();
+        System.out.println(wettbuero.toString());
     }
-    
+}
 }
