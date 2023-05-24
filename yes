@@ -1,55 +1,59 @@
-public String toString() {
-  import java.util.ArrayList;
+public class TennisSpieler {
+    private static int folgeNummer = 1;
 
-public class Test {
+    private String name;
+    private int alter;
+    private TennisSpieler verfolger;
+    private int startNummer;
+
+    public TennisSpieler() {
+        name = "";
+        alter = 0;
+        verfolger = null;
+        startNummer = folgeNummer++;
+    }
+
+    public TennisSpieler(String name, int alter) {
+        this();
+        this.name = name;
+        this.alter = alter;
+    }
+
+    public TennisSpieler(String name, int alter, TennisSpieler verfolger) {
+        this(name, alter);
+        this.verfolger = verfolger;
+    }
+
+    public int altersDifferenz(int alter) {
+        return Math.abs(alter - this.alter);
+    }
+
+    public boolean istLetzter() {
+        return verfolger == null;
+    }
+
+    public int getStartNummer() {
+        return startNummer;
+    }
+
+    public String toString() {
+        String printText = name + " (" + startNummer + ")";
+        if (verfolger != null)
+            printText += " liegt vor " + verfolger.toString();
+        return printText;
+    }
 
     public static void main(String[] args) {
-        // Test Rennschnecke
-        Rennschnecke s1 = new Rennschnecke("Schnellie", 3);
-        Rennschnecke s2 = new Rennschnecke("Schnecki", 2);
-        System.out.println(s1.toString());
-        System.out.println(s2.toString());
-        s1.krieche();
-        s2.krieche();
-        System.out.println(s1.toString());
-        System.out.println(s2.toString());
-        s1.krieche();
-        s2.krieche();
-        System.out.println(s1.toString());
-        System.out.println(s2.toString());
-        s1.krieche();
-        s2.krieche();
-        System.out.println(s1.toString());
-        System.out.println(s2.toString());
-        System.out.println(s1.compareTo(s2));
+        TennisSpieler maier = new TennisSpieler("H. Maier", 68);
+        TennisSpieler schmid = new TennisSpieler("G. Schmid", 45, maier);
+        TennisSpieler berger = new TennisSpieler("I. Berger", 36, schmid);
 
-        // Test Rennen
-        Rennschnecke[] schnecken = new Rennschnecke[]{s1, s2};
-        Rennen rennen = new Rennen("Schneckenrennen", schnecken, 10);
-        System.out.println(rennen.toString());
-        rennen.addRennschnecke(new Rennschnecke("Schnarchi", 1));
-        System.out.println(rennen.toString());
-        rennen.removeRennschnecke("Schnarchi");
-        System.out.println(rennen.toString());
-        rennen.lasseSchneckenKriechen();
-        System.out.println(rennen.toString());
-        Rennschnecke gewinner = rennen.ermittleGewinner();
-        System.out.println(gewinner.toString());
+        System.out.println("Altersdifferenz von Maier: " + maier.altersDifferenz(70));
+        System.out.println("Ist Schmid letzter Spieler? " + schmid.istLetzter());
+        System.out.println("Startnummer von Berger: " + berger.getStartNummer());
 
-        // Test Wette
-        Wette wette1 = new Wette(s1, 5, "Spieler1");
-        Wette wette2 = new Wette(s2, 10, "Spieler2");
-        System.out.println(wette1.toString());
-        System.out.println(wette2.toString());
-
-        // Test Wettbuero
-        Wettbuero wettbuero = new Wettbuero(rennen, 2.0);
-        System.out.println(wettbuero.toString());
-        wettbuero.wetteAnnehmen("Schnellie", 10, "Spieler3");
-        wettbuero.wetteAnnehmen("Schnecki", 5, "Spieler4");
-        System.out.println(wettbuero.toString());
-        wettbuero.rennenDurchfuehren();
-        System.out.println(wettbuero.toString());
+        System.out.println(maier.toString());
+        System.out.println(schmid.toString());
+        System.out.println(berger.toString());
     }
-}
 }
