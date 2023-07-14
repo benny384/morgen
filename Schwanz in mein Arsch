@@ -1,1 +1,56 @@
-Schwanz in mein Arsch
+public void generateCoordinates(ArrayList<Schiff> existingShips) {
+    Random random = new Random();
+    int x = random.nextInt(10);
+    int y = random.nextInt(10);
+    String[] directions = { "horizontal", "vertical" };
+    String direction = directions[random.nextInt(2)];
+
+    if (direction.equals("horizontal") && y + size <= 10) {
+        for (int i = 0; i < size; i++) {
+            Coordinate coordinate = new Coordinate(x + i, y);
+            // Check if the coordinate is outside the game board or overlaps with an existing ship
+            if (coordinateWithinBounds(coordinate) && !checkCollision(coordinate, existingShips)) {
+                coordinates.add(coordinate);
+            } else {
+                generateCoordinates(existingShips); // Retry generating coordinates
+                return;
+            }
+        }
+    } else if (direction.equals("vertical") && x + size <= 10) {
+        for (int i = 0; i < size; i++) {
+            Coordinate coordinate = new Coordinate(x, y + i);
+            // Check if the coordinate is outside the game board or overlaps with an existing ship
+            if (coordinateWithinBounds(coordinate) && !checkCollision(coordinate, existingShips)) {
+                coordinates.add(coordinate);
+            } else {
+                generateCoordinates(existingShips); // Retry generating coordinates
+                return;
+            }
+        }
+    } else {
+        generateCoordinates(existingShips); // Retry generating coordinates
+    }
+}
+
+private boolean coordinateWithinBounds(Coordinate coordinate) {
+    int x = coordinate.getX();
+    int y = coordinate.getY();
+    return x >= 0 && x < 10 && y >= 0 && y < 10;
+}
+
+private boolean checkCollision(Coordinate coordinate, ArrayList<Schiff> existingShips) {
+    for (Schiff ship : existingShips) {
+        for (Coordinate existingCoordinate : ship.getCoordinates()) {
+            int x1 = existingCoordinate.getX();
+            int y1 = existingCoordinate.getY();
+            int x2 = coordinate.getX();
+            int y2 = coordinate.getY();
+            // Check if the new coordinate is adjacent to any existing ship's coordinates
+            if (Math.abs(x1 - x2) <= 1 && Math.abs(y1 - y2) <= 1) {
+                return true; // Collision detected
+            }
+        }
+    }
+    return false; // No collision
+}
+
