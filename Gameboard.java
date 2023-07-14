@@ -32,3 +32,24 @@ board[x][y]= 'x';
 }
 }
 }
+
+
+
+
+
+
+public void placeGameSchiff(Schiff schiff) {
+    for (Coordinate coordinate : schiff.getCoordinates()) {
+        int x = coordinate.getX();
+        int y = coordinate.getY();
+        if (isWithinBounds(x, y)) {
+            board[x][y] = 'x';
+        } else {
+            System.out.println("Invalid coordinate: (" + x + ", " + y + ")");
+        }
+    }
+}
+
+private boolean isWithinBounds(int x, int y) {
+    return x >= 0 && x < 10 && y >= 0 && y < 10;
+}
