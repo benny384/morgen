@@ -1,13 +1,8 @@
-public class Gameboard {
-    // ...
-
-    public void markShipCoordinate(int x, int y, String mark) {
-        if (isWithinBounds(x, y)) {
-            board[x][y] = mark;
-        } else {
-            System.out.println("Invalid coordinate: (" + x + ", " + y + ")");
-        }
+public void markShipCoordinate(int x, int y, String mark) {
+    if (isWithinBounds(x, y)) {
+        char markChar = mark.charAt(0);  // Convert the first character of the mark String to a char
+        board[x][y] = markChar;
+    } else {
+        System.out.println("Invalid coordinate: (" + x + ", " + y + ")");
     }
-
-    // ...
 }
