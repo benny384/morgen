@@ -1,8 +1,36 @@
-public void markShipCoordinate(int x, int y, String mark) {
-    if (isWithinBounds(x, y)) {
-        char markChar = mark.charAt(0);  // Convert the first character of the mark String to a char
-        board[x][y] = markChar;
-    } else {
-        System.out.println("Invalid coordinate: (" + x + ", " + y + ")");
+package Schiffeversenken;
+
+public class Main {
+    public static void main(String[] args) {
+        // Erstelle ein Gameboard-Objekt
+        Gameboard gameboard = new Gameboard();
+
+        // Erzeuge ein Schiff
+        Schiff ship = new Schiff(3);
+        ship.generateCoordinates();
+
+        // Platziere das Schiff auf dem Gameboard
+        gameboard.placeGameSchiff(ship);
+
+        // Drucke das Gameboard vor dem Schuss
+        System.out.println("Gameboard vor dem Schuss:");
+        gameboard.printBoard();
+
+        // Führe einen Schuss auf das Schiff durch
+        int shotX = 2;
+        int shotY = 3;
+        Shot shot = new Shot(shotX, shotY);
+        if (ship.getCoordinates().contains(new Coordinate(shotX, shotY))) {
+            // Das Schiff wurde getroffen
+            shot.setHit(true);
+            shot.markShipHit(gameboard);
+        } else {
+            // Das Schiff wurde verfehlt
+            System.out.println("Verfehlt!");
+        }
+
+        // Drucke das Gameboard nach dem Schuss
+        System.out.println("Gameboard nach dem Schuss:");
+        gameboard.printBoard();
     }
 }
