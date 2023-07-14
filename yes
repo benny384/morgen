@@ -1,35 +1,13 @@
-package Schiffeversenken;
+public class Gameboard {
+    // ...
 
-public class Shot {
-    private int x;
-    private int y;
-    private boolean hit;
-
-    public Shot(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.hit = false;
+    public void markShipCoordinate(int x, int y, String mark) {
+        if (isWithinBounds(x, y)) {
+            board[x][y] = mark;
+        } else {
+            System.out.println("Invalid coordinate: (" + x + ", " + y + ")");
+        }
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public boolean isHit() {
-        return hit;
-    }
-
-    public void setHit(boolean hit) {
-        this.hit = hit;
-    }
-
-    public void markShipHit(Gameboard gameboard) {
-        gameboard.markShipCoordinate(x, y, "S");
-        System.out.println("Hit at coordinates (" + x + ", " + y + ")!");
-    }
+    // ...
 }
-
