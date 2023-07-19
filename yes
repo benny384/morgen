@@ -1,36 +1,11 @@
-package Schiffeversenken;
-
-public class Main {
-    public static void main(String[] args) {
-        // Erstelle ein Gameboard-Objekt
-        Gameboard gameboard = new Gameboard();
-
-        // Erzeuge ein Schiff
-        Schiff ship = new Schiff(3);
-        ship.generateCoordinates();
-
-        // Platziere das Schiff auf dem Gameboard
-        gameboard.placeGameSchiff(ship);
-
-        // Drucke das Gameboard vor dem Schuss
-        System.out.println("Gameboard vor dem Schuss:");
-        gameboard.printBoard();
-
-        // Führe einen Schuss auf das Schiff durch
-        int shotX = 2;
-        int shotY = 3;
-        Shot shot = new Shot(shotX, shotY);
-        if (ship.getCoordinates().contains(new Coordinate(shotX, shotY))) {
-            // Das Schiff wurde getroffen
-            shot.setHit(true);
-            shot.markShipHit(gameboard);
+public boolean fireShot(Coordinate coordinate) {
+        int x = coordinate.getX();
+        int y = coordinate.getY();
+        if (board[x][y] == 'X') {
+            board[x][y] = 'H'; // 'H' für getroffen
+            return true;
         } else {
-            // Das Schiff wurde verfehlt
-            System.out.println("Verfehlt!");
+            board[x][y] = 'M'; // 'M' für verfehlt
+            return false;
         }
-
-        // Drucke das Gameboard nach dem Schuss
-        System.out.println("Gameboard nach dem Schuss:");
-        gameboard.printBoard();
     }
-}
