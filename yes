@@ -1,11 +1,47 @@
-public boolean fireShot(Coordinate coordinate) {
-        int x = coordinate.getX();
-        int y = coordinate.getY();
-        if (board[x][y] == 'X') {
-            board[x][y] = 'H'; // 'H' für getroffen
-            return true;
+public class Patientenliste {
+    private Patient[] patientenListe;
+    private int anzahlPatienten;
+
+    public Patientenliste() {
+        this.patientenListe = new Patient[10];
+        this.anzahlPatienten = 0;
+    }
+
+    // Methode, um einen Patienten zur Liste hinzuzufügen
+    public void patientHinzufuegen(Patient p) {
+        if (anzahlPatienten < patientenListe.length) {
+            patientenListe[anzahlPatienten] = p;
+            anzahlPatienten++;
+            System.out.println(p.name + " wurde zur Patientenliste hinzugefügt.");
         } else {
-            board[x][y] = 'M'; // 'M' für verfehlt
-            return false;
+            System.out.println("Die Patientenliste ist voll. Kann keinen weiteren Patienten hinzufügen.");
         }
     }
+
+    // Methode, um einen Patienten aus der Liste zu entfernen
+    public void patientLoeschen(Patient p) {
+        for (int i = 0; i < anzahlPatienten; i++) {
+            if (patientenListe[i] == p) {
+                for (int j = i; j < anzahlPatienten - 1; j++) {
+                    patientenListe[j] = patientenListe[j + 1];
+                }
+                patientenListe[anzahlPatienten - 1] = null;
+                anzahlPatienten--;
+                System.out.println(p.name + " wurde aus der Patientenliste entfernt.");
+                return;
+            }
+        }
+        System.out.println("Patient nicht gefunden: " + p.name);
+    }
+
+    // Methode, um einen Patienten nach Namen zu suchen
+    public Patient patientSuchen(String name) {
+        for (int i = 0; i < anzahlPatienten; i++) {
+            if (patientenListe[i].name.equals(name)) {
+                return patientenListe[i];
+            }
+        }
+        System.out.println("Patient nicht gefunden: " + name);
+        return null;
+    }
+}
