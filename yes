@@ -1,47 +1,91 @@
-public class Patientenliste {
-    private Patient[] patientenListe;
-    private int anzahlPatienten;
+public class Kurs {
+    private String bezeichnung;
+    private int nr;
+    private Schüler[] teilnehmer;
+    private int anzahlTeilnehmer;
 
-    public Patientenliste() {
-        this.patientenListe = new Patient[10];
-        this.anzahlPatienten = 0;
+    public Kurs(String bezeichnung, int nr, int maxTeilnehmer) {
+        this.bezeichnung = bezeichnung;
+        this.nr = nr;
+        this.teilnehmer = new Schüler[maxTeilnehmer];
+        this.anzahlTeilnehmer = 0;
     }
 
-    // Methode, um einen Patienten zur Liste hinzuzufügen
-    public void patientHinzufuegen(Patient p) {
-        if (anzahlPatienten < patientenListe.length) {
-            patientenListe[anzahlPatienten] = p;
-            anzahlPatienten++;
-            System.out.println(p.name + " wurde zur Patientenliste hinzugefügt.");
-        } else {
-            System.out.println("Die Patientenliste ist voll. Kann keinen weiteren Patienten hinzufügen.");
-        }
+    public Schüler[] getTeilnehmer() {
+        return teilnehmer;
     }
 
-    // Methode, um einen Patienten aus der Liste zu entfernen
-    public void patientLoeschen(Patient p) {
-        for (int i = 0; i < anzahlPatienten; i++) {
-            if (patientenListe[i] == p) {
-                for (int j = i; j < anzahlPatienten - 1; j++) {
-                    patientenListe[j] = patientenListe[j + 1];
-                }
-                patientenListe[anzahlPatienten - 1] = null;
-                anzahlPatienten--;
-                System.out.println(p.name + " wurde aus der Patientenliste entfernt.");
-                return;
+    public Schüler getSchüler(int nr) {
+        for (Schüler schüler : teilnehmer) {
+            if (schüler != null && schüler.getNr() == nr) {
+                return schüler;
             }
         }
-        System.out.println("Patient nicht gefunden: " + p.name);
-    }
-
-    // Methode, um einen Patienten nach Namen zu suchen
-    public Patient patientSuchen(String name) {
-        for (int i = 0; i < anzahlPatienten; i++) {
-            if (patientenListe[i].name.equals(name)) {
-                return patientenListe[i];
-            }
-        }
-        System.out.println("Patient nicht gefunden: " + name);
         return null;
+    }
+
+    public boolean fügeSchülerHinzu(Schüler schüler) {
+        if (anzahlTeilnehmer < teilnehmer.length) {
+            teilnehmer[anzahlTeilnehmer++] = schüler;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean löscheSchüler(int nr) {
+        for (int i = 0; i < anzahlTeilnehmer; i++) {
+            if (teilnehmer[i] != null && teilnehmer[i].getNr() == nr) {
+                // Schüler gefunden, verschiebe die restlichen Elemente
+                System.arraycopy(teilnehmer, i + 1, teilnehmer, i, anzahlTeilnehmer - i - 1);
+                teilnehmer[--anzahlTeilnehmer] = null; // Letztes Element auf null setzen
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void schülerAusgeben() {
+        for (Schüler schüler : teilnehmer) {
+            if (schüler != null) {
+                System.out.println(schüler);
+            }
+        }
+    }
+
+    public String getBezeichnung() {
+        return bezeichnung;
+    }
+
+    public int getNr() {
+        return nr;
+    }
+}
+
+class Schüler {
+    private String name;
+    private String vorname;
+    private int nr;
+
+    public Schüler(String name, String vorname, int nr) {
+        this.name = name;
+        this.vorname = vorname;
+        this.nr = nr;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getVorname() {
+        return vorname;
+    }
+
+    public int getNr() {
+        return nr;
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + vorname + " (Nr: " + nr + ")";
     }
 }
