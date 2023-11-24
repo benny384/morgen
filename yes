@@ -1,23 +1,24 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Kurs {
     private String bezeichnung;
     private int nr;
-    private Schüler[] teilnehmer;
-    private int anzahlTeilnehmer;
+    private List<Schüler> teilnehmer;
 
-    public Kurs(String bezeichnung, int nr, int maxTeilnehmer) {
+    public Kurs(String bezeichnung, int nr) {
         this.bezeichnung = bezeichnung;
         this.nr = nr;
-        this.teilnehmer = new Schüler[maxTeilnehmer];
-        this.anzahlTeilnehmer = 0;
+        this.teilnehmer = new ArrayList<>();
     }
 
-    public Schüler[] getTeilnehmer() {
+    public List<Schüler> getTeilnehmer() {
         return teilnehmer;
     }
 
     public Schüler getSchüler(int nr) {
         for (Schüler schüler : teilnehmer) {
-            if (schüler != null && schüler.getNr() == nr) {
+            if (schüler.getNr() == nr) {
                 return schüler;
             }
         }
@@ -25,30 +26,20 @@ public class Kurs {
     }
 
     public boolean fügeSchülerHinzu(Schüler schüler) {
-        if (anzahlTeilnehmer < teilnehmer.length) {
-            teilnehmer[anzahlTeilnehmer++] = schüler;
-            return true;
-        }
-        return false;
+        return teilnehmer.add(schüler);
     }
 
     public boolean löscheSchüler(int nr) {
-        for (int i = 0; i < anzahlTeilnehmer; i++) {
-            if (teilnehmer[i] != null && teilnehmer[i].getNr() == nr) {
-                // Schüler gefunden, verschiebe die restlichen Elemente
-                System.arraycopy(teilnehmer, i + 1, teilnehmer, i, anzahlTeilnehmer - i - 1);
-                teilnehmer[--anzahlTeilnehmer] = null; // Letztes Element auf null setzen
-                return true;
-            }
+        Schüler schüler = getSchüler(nr);
+        if (schüler != null) {
+            return teilnehmer.remove(schüler);
         }
         return false;
     }
 
     public void schülerAusgeben() {
         for (Schüler schüler : teilnehmer) {
-            if (schüler != null) {
-                System.out.println(schüler);
-            }
+            System.out.println(schüler);
         }
     }
 
@@ -58,34 +49,5 @@ public class Kurs {
 
     public int getNr() {
         return nr;
-    }
-}
-
-class Schüler {
-    private String name;
-    private String vorname;
-    private int nr;
-
-    public Schüler(String name, String vorname, int nr) {
-        this.name = name;
-        this.vorname = vorname;
-        this.nr = nr;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getVorname() {
-        return vorname;
-    }
-
-    public int getNr() {
-        return nr;
-    }
-
-    @Override
-    public String toString() {
-        return name + " " + vorname + " (Nr: " + nr + ")";
     }
 }
