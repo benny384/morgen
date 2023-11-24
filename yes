@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Kurs {
@@ -9,7 +9,7 @@ public class Kurs {
     public Kurs(String bezeichnung, int nr) {
         this.bezeichnung = bezeichnung;
         this.nr = nr;
-        this.teilnehmer = new ArrayList<>();
+        this.teilnehmer = new LinkedList<>();
     }
 
     public List<Schüler> getTeilnehmer() {
