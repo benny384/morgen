@@ -1,53 +1,17 @@
-import java.util.LinkedList;
-import java.util.List;
-
-public class Kurs {
-    private String bezeichnung;
-    private int nr;
-    private List<Schüler> teilnehmer;
-
-    public Kurs(String bezeichnung, int nr) {
-        this.bezeichnung = bezeichnung;
-        this.nr = nr;
-        this.teilnehmer = new LinkedList<>();
+public class TestSequenzielleSuche {
+    public static void main(String[] args) {
+        int[] zahlen = {30, 7, 45, 15, 17, 102, 25, 100, 1, 14};
+        int gesucht = 19;
+        suchesequenziell(zahlen, gesucht);
     }
 
-    public List<Schüler> getTeilnehmer() {
-        return teilnehmer;
-    }
-
-    public Schüler getSchüler(int nr) {
-        for (Schüler schüler : teilnehmer) {
-            if (schüler.getNr() == nr) {
-                return schüler;
+    public static void suchesequenziell(int[] zahlen, int gesucht) {
+        for (int i = 0; i < zahlen.length; i++) {
+            if (zahlen[i] == gesucht) {
+                System.out.println("Die Zahl " + gesucht + " wurde an Index " + i + " gefunden.");
+                return;
             }
         }
-        return null;
-    }
-
-    public boolean fügeSchülerHinzu(Schüler schüler) {
-        return teilnehmer.add(schüler);
-    }
-
-    public boolean löscheSchüler(int nr) {
-        Schüler schüler = getSchüler(nr);
-        if (schüler != null) {
-            return teilnehmer.remove(schüler);
-        }
-        return false;
-    }
-
-    public void schülerAusgeben() {
-        for (Schüler schüler : teilnehmer) {
-            System.out.println(schüler);
-        }
-    }
-
-    public String getBezeichnung() {
-        return bezeichnung;
-    }
-
-    public int getNr() {
-        return nr;
+        System.out.println("Die Zahl " + gesucht + " wurde nicht gefunden.");
     }
 }
