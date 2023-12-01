@@ -1,8 +1,39 @@
+import java.util.ArrayList;
+
 public class TestSequenzielleSuche {
     public static void main(String[] args) {
         int[] zahlen = {30, 7, 45, 15, 17, 102, 25, 100, 1, 14};
-        int gesucht = 19;
-        suchesequenziell(zahlen, gesucht);
+        int gesucht1 = 19;
+        int gesucht2 = 15;
+
+        // Gesuchte Zahl ist nicht im Array enthalten
+        suchesequenziell(zahlen, gesucht1);
+
+        // Gesuchte Zahl ist mehrfach im Array enthalten
+        suchesequenziellMehrfach(zahlen, gesucht2);
+
+        // Effizienz für spätere Vergleiche
+        long startTime = System.nanoTime();
+        suchesequenziell(zahlen, gesucht1);
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+        System.out.println("Laufzeit der sequenziellen Suche: " + duration + " Nanosekunden");
+
+        // Suche das größte oder kleinste Element
+        int max = findeMax(zahlen);
+        int min = findeMin(zahlen);
+        System.out.println("Größtes Element: " + max);
+        System.out.println("Kleinstes Element: " + min);
+
+        // Gib alle geraden Zahlen aus
+        gibGeradeZahlen(zahlen);
+
+        // Gib alle Primzahlen aus
+        gibPrimzahlen(zahlen);
+
+        // Gib die drei größten Zahlen
+        ArrayList<Integer> topThree = findeTopDrei(zahlen);
+        System.out.println("Die drei größten Zahlen: " + topThree);
     }
 
     public static void suchesequenziell(int[] zahlen, int gesucht) {
@@ -13,5 +44,88 @@ public class TestSequenzielleSuche {
             }
         }
         System.out.println("Die Zahl " + gesucht + " wurde nicht gefunden.");
+    }
+
+    public static void suchesequenziellMehrfach(int[] zahlen, int gesucht) {
+        for (int i = 0; i < zahlen.length; i++) {
+            if (zahlen[i] == gesucht) {
+                System.out.println("Die Zahl " + gesucht + " wurde an Index " + i + " gefunden.");
+            }
+        }
+        // Falls die Zahl nicht gefunden wurde
+        System.out.println("Die Zahl " + gesucht + " wurde nicht gefunden.");
+    }
+
+    public static int findeMax(int[] zahlen) {
+        int max = zahlen[0];
+        for (int zahl : zahlen) {
+            if (zahl > max) {
+                max = zahl;
+            }
+        }
+        return max;
+    }
+
+    public static int findeMin(int[] zahlen) {
+        int min = zahlen[0];
+        for (int zahl : zahlen) {
+            if (zahl < min) {
+                min = zahl;
+            }
+        }
+        return min;
+    }
+
+    public static void gibGeradeZahlen(int[] zahlen) {
+        System.out.println("Gerade Zahlen im Array:");
+        for (int zahl : zahlen) {
+            if (zahl % 2 == 0) {
+                System.out.print(zahl + " ");
+            }
+        }
+        System.out.println(); // Neue Zeile für bessere Formatierung
+    }
+
+    public static void gibPrimzahlen(int[] zahlen) {
+        System.out.println("Primzahlen im Array:");
+        for (int zahl : zahlen) {
+            if (isPrimzahl(zahl)) {
+                System.out.print(zahl + " ");
+            }
+        }
+        System.out.println(); // Neue Zeile für bessere Formatierung
+    }
+
+    public static boolean isPrimzahl(int zahl) {
+        if (zahl < 2) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(zahl); i++) {
+            if (zahl % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static ArrayList<Integer> findeTopDrei(int[] zahlen) {
+        ArrayList<Integer> topThree = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            int max = findeMax(zahlen);
+            topThree.add(max);
+            // Setze den gefundenen Maximalwert auf einen unrealistischen kleinen Wert,
+            // damit er beim nächsten Durchlauf nicht erneut ausgewählt wird.
+            zahlen[getIndex(zahlen, max)] = Integer.MIN_VALUE;
+        }
+        return topThree;
+    }
+
+    public static int getIndex(int[] arr, int value) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == value) {
+                return i;
+            }
+        }
+        return -1; // Sollte normalerweise nicht passieren, wenn das Element vorhanden ist.
     }
 }
