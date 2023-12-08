@@ -1,23 +1,24 @@
-public class TestBinaereSuche {
+public class TestBinäreSuche {
     public static void main(String[] args) {
         int[] zahlen = {5, 7, 8, 15, 17, 19, 25, 100, 102, 145};
-        sucheBinaer(zahlen, 19, 0, zahlen.length - 1);
+        int gesucht = 19;
+        int ergebnis = sucheBinaer(zahlen, gesucht, 0, zahlen.length - 1);
+        System.out.println("Index des gesuchten Elements: " + ergebnis);
     }
 
-    public static void sucheBinaer(int[] zahlen, int gesucht, int links, int rechts) {
-        if (links <= rechts) {
-            int mitte = (links + rechts) / 2;
+    public static int sucheBinaer(int[] zahlen, int gesucht, int low, int high) {
+        if (low <= high) {
+            int mitte = low + (high - low) / 2;
 
             if (zahlen[mitte] == gesucht) {
-                System.out.println("Die Zahl " + gesucht + " wurde an Index " + mitte + " gefunden.");
-                return;
+                return mitte;
             } else if (zahlen[mitte] < gesucht) {
-                sucheBinaer(zahlen, gesucht, mitte + 1, rechts);
+                return sucheBinaer(zahlen, gesucht, mitte + 1, high);
             } else {
-                sucheBinaer(zahlen, gesucht, links, mitte - 1);
+                return sucheBinaer(zahlen, gesucht, low, mitte - 1);
             }
         } else {
-            System.out.println("Die Zahl " + gesucht + " wurde nicht gefunden.");
+            return -1;  // Element nicht gefunden
         }
     }
 }
