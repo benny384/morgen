@@ -1,24 +1,74 @@
-public class TestBinäreSuche {
-    public static void main(String[] args) {
-        int[] zahlen = {5, 7, 8, 15, 17, 19, 25, 100, 102, 145};
-        int gesucht = 19;
-        int ergebnis = sucheBinaer(zahlen, gesucht, 0, zahlen.length - 1);
-        System.out.println("Index des gesuchten Elements: " + ergebnis);
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class PasswortUeberpruefung extends JFrame {
+    private JTextField nameTextField;
+    private JTextField alterTextField;
+    private JPasswordField passwortField;
+    private JButton ueberpruefenButton;
+    private JLabel statusLabel;
+
+    public PasswortUeberpruefung() {
+        createView();
+        setTitle("Passwort Überprüfung");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(400, 200);
+        setLocationRelativeTo(null);
     }
 
-    public static int sucheBinaer(int[] zahlen, int gesucht, int low, int high) {
-        if (low <= high) {
-            int mitte = low + (high - low) / 2;
-
-            if (zahlen[mitte] == gesucht) {
-                return mitte;
-            } else if (zahlen[mitte] < gesucht) {
-                return sucheBinaer(zahlen, gesucht, mitte + 1, high);
-            } else {
-                return sucheBinaer(zahlen, gesucht, low, mitte - 1);
+    private void createView() {
+        JPanel panel = new JPanel(new BorderLayout(5, 5));
+        
+        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 5, 5));
+        inputPanel.add(new JLabel("Name:"));
+        nameTextField = new JTextField();
+        inputPanel.add(nameTextField);
+        inputPanel.add(new JLabel("Alter:"));
+        alterTextField = new JTextField();
+        inputPanel.add(alterTextField);
+        inputPanel.add(new JLabel("Passwort:"));
+        passwortField = new JPasswordField();
+        inputPanel.add(passwortField);
+        
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        ueberpruefenButton = new JButton("Passwort prüfen");
+        ueberpruefenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ueberpruefen();
             }
+        });
+        buttonPanel.add(ueberpruefenButton);
+        
+        statusLabel = new JLabel("");
+        buttonPanel.add(statusLabel);
+        
+        panel.add(inputPanel, BorderLayout.CENTER);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
+        
+        add(panel);
+    }
+
+    private void ueberpruefen() {
+        String name = nameTextField.getText();
+        int alter = Integer.parseInt(alterTextField.getText());
+        String passwort = new String(passwortField.getPassword());
+        
+        if (!name.isEmpty() && alter >= 18 && passwort.equals("Geheim")) {
+            statusLabel.setText("Passwort okay!");
         } else {
-            return -1;  // Element nicht gefunden
+            statusLabel.setText("Passwort nicht okay.");
         }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new PasswortUeberpruefung().setVisible(true);
+            }
+        });
     }
 }
